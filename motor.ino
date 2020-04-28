@@ -1,4 +1,5 @@
 #include <SPI.h>
+#include <AccelStepper.h>
 
 #define EN_PIN           1 // Enable
 #define DIR_PIN          4 // Direction
@@ -64,7 +65,4 @@ void loop() {
     digitalWrite(STEP_PIN, LOW);
     // Serial.println("2");
     delayMicroseconds(20);
-// }
-
-  
 }
