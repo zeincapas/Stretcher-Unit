@@ -3,38 +3,38 @@
 
 #include <stdint.h>
 
-struct DRIVERCONF
+struct DRVCONF
 {
-    const uint8_t address = 0b111;
-    
+    const uint8_t address = 0x07;
+
 };
 
 struct DRVCTRL_0       //STEP and DIR mode
 {
-    const uint8_t address = 0b00;
+    const uint8_t address = 0x00;
 };
 
 struct DRVCTRL_1       //SPI mode
 {
-    const uint8_t address = 0b00;
+    const uint8_t address = 0x00;
 
 };
 
 struct CHOPCONF
 {
-    const uint8_t address = 0b100;
+    const uint8_t address = 0x04;
 
 };
 
 struct SMARTEN
 {
-    const uint8_t address = 0b101;
+    const uint8_t address = 0x05;
 
 };
 
 struct SGCSCONF
 {
-    const uint8_t address = 0b110;
+    const uint8_t address = 0x06;
 
 };
 
