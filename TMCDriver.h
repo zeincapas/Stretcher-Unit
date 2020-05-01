@@ -28,14 +28,24 @@ class TMC2660
     //CHOPCONF
     void blankTime(); //TBL the number of cycles after a switch, in which the sense resistor ringing is ignored (ripples are bad).
     void chopperMode(); //CHM 1: constant off-time mode    0: spreadCycle mode
-
     //Spreadcycle mode (dynamic TOFF mode)
     void hystEnd(); //HEND sets minimum allowable offset value from target current.
     void hystStart(); //HSTRT sets maximum allowable offset value from target current.
     void hystDecrement(); //HDEC sets the rate at which the value decrements from HSTRT+HEND to HEND.
-
     //Constant TOFF mode
-    void slowDecayTime(); //TOFF
+    void slowDecayTime(); //TOFF   t = (1/fclk)*((TOFF * 32) + 12)
+
+    //DRVCTRL_STEP/DIR_MODE
+    void setMicroStep(); //MRES
+    void doubleStepping(); //DEDGE 0: Rising step pulse is active, falling is inactive    1: Both rising and falling edge active
+    void 
+    
+
+
+    //TODO: DRVCTRL_SPI_MODE
+
+
+
 
 
 };
