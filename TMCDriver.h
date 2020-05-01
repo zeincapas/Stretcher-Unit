@@ -38,7 +38,7 @@ class TMC2660
     //DRVCTRL_STEP/DIR_MODE
     void setMicroStep(); //MRES
     void doubleStepping(); //DEDGE 0: Rising step pulse is active, falling is inactive    1: Both rising and falling edge active
-    void 
+    void stepInterpolation(); //INTPOL 0: Disable STEP pulse interpolation   1: Enable step pulse multiplication by 16.
     
 
 
