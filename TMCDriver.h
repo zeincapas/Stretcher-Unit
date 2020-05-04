@@ -6,6 +6,12 @@
 class TMC2660 
 {
     public:
+        TMC2660(int8_t cs_pin, int8_t en_pin)
+        {
+            en = en_pin;
+            cs = cs_pin;
+        }
+        
         void init();
 
         //DRVCONF
@@ -53,11 +59,8 @@ class TMC2660
         void modifyBits(uint32_t mask, uint32_t bits, uint32_t* reg);
 
         //Hardawre pins
-        const int EN_PIN = 1;
-        const int DIR_PIN = 4;
-        const int STEP_PIN = 3;
-        const int CS_PIN = 7;
-        const int CLK_PIN = 6;
+        int en;
+        int cs;
 
         //SPI Speed 
         const uint32_t spi_speed = 16000000/8; // Default 2MHz

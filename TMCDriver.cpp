@@ -9,13 +9,9 @@ DRVCTRL_0 DRVCTRL;
 ****************************************/
 void TMC2660::init()
 {
-    pinMode(CS_PIN, OUTPUT);
-    pinMode(EN_PIN, OUTPUT);
-    pinMode(STEP_PIN, OUTPUT);
-    pinMode(DIR_PIN, OUTPUT);
-    digitalWrite(EN_PIN, LOW);      // Enable driver in hardware
-    digitalWrite(CLK_PIN, LOW);
-    digitalWrite(DIR_PIN, HIGH);    
+    pinMode(cs, OUTPUT);
+    pinMode(en, OUTPUT);
+    digitalWrite(en, LOW);      // Enable driver in hardware
 }
 
 
