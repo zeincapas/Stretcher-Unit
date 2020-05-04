@@ -1,10 +1,28 @@
-#include <Arduino.h>
 #include "TMCDriver.h"
-#include <stdint.h>
+#include "bitFields.h"
+#include <SPI.h>
 
-//DRVCTRL
+DRVCTRL_0 DRVCTRL;
 
-void TMC2660::setMicroStep(uint8_t mStep) 
+/****************************************
+***********       INIT       ************
+****************************************/
+void TMC2660::init()
+{
+    pinMode(CS_PIN, OUTPUT);
+    pinMode(EN_PIN, OUTPUT);
+    pinMode(STEP_PIN, OUTPUT);
+    pinMode(DIR_PIN, OUTPUT);
+    digitalWrite(EN_PIN, LOW);      // Enable driver in hardware
+    digitalWrite(CLK_PIN, LOW);
+    digitalWrite(DIR_PIN, HIGH);    
+}
+
+
+/****************************************
+*********** DRVCTRL FUNCTIONS ***********
+****************************************/
+void TMC2660::setMicroStep(uint16_t mStep) 
 {   
     uint32_t bits;
     switch(mStep)
@@ -20,11 +38,44 @@ void TMC2660::setMicroStep(uint8_t mStep)
         case   1:   bits = 0x08; break;    
     }
 
-    constructBitField(bits, DRVCTRL_0); 
+    modifyBits(DRVCTRL.mstep, bits, &DRVCTRL_0_CMD); 
 }
 
-void TMC2660::constructBitField(uint32_t bits, uint32_t reg)
+void TMC2660::doubleStepping(bool flag)
 {
-    DRVCTRL_0 = DRVCTRL_0 | bits; 
+    uint32_t bits;
+    uint8_t shift = 8;
+
+    if (flag)
+    {
+        bits = 1 << shift;
+    }
+    else
+    {
+        bits = 0 << shift;
+    }
+    modifyBits(DRVCTRL.dedge, bits, &DRVCTRL_0_CMD);
+}
+
+void TMC2660::stepInterpolation(bool flag)
+{
+    uint32_t bits;
+    uint8_t shift = 9;
+
+    if (flag)
+    {
+        bits = 1 << shift; 
+    }
+    else 
+    {
+        bits = 0 << shift;
+    }
+    modifyBits(DRVCTRL.intpol, bits, &DRVCTRL_0_CMD);
+}
+
+void TMC2660::modifyBits(uint32_t mask, uint32_t edit, uint32_t* reg)
+{
+    //clear the register first and then "OR" it after. 
+    *reg = (*reg & ~mask) | edit;
 }
 
