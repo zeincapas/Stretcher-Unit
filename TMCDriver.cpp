@@ -5,13 +5,24 @@
 DRVCTRL_0 DRVCTRL;
 
 /****************************************
-***********       INIT       ************
+***********    INIT/SPI     *************
 ****************************************/
 void TMC2660::init()
 {
     pinMode(cs, OUTPUT);
     pinMode(en, OUTPUT);
     digitalWrite(en, LOW);      // Enable driver in hardware
+}
+
+void TMC2660::write(uint32_t* cmd)
+{
+    //Acquire constructed bitfield and chop it up to 4 bytes. 
+    char writeField[4] = {*cmd >> 24, (*cmd >> 16) & 0xFF, (*cmd >> 8) & 0xFF, (*cmd) & 0xFF};
+    SPI.begin();
+    digitalWrite(cs, LOW);
+    SPI.transfer(&writeField, 4);
+    digitalWrite(cs, HIGH);
+    SPI.endTransaction();
 }
 
 
@@ -34,7 +45,8 @@ void TMC2660::setMicroStep(uint16_t mStep)
         case   1:   bits = 0x08; break;    
     }
 
-    modifyBits(DRVCTRL.mstep, bits, &DRVCTRL_0_CMD); 
+    modifyBits(DRVCTRL.mstep, bits, &DRVCTRL_0_CMD);
+    // write(&DRVCTRL_0_CMD); 
 }
 
 void TMC2660::doubleStepping(bool flag)
@@ -51,6 +63,7 @@ void TMC2660::doubleStepping(bool flag)
         bits = 0 << shift;
     }
     modifyBits(DRVCTRL.dedge, bits, &DRVCTRL_0_CMD);
+    // write(&DRVCTRL_0_CMD); 
 }
 
 void TMC2660::stepInterpolation(bool flag)
@@ -67,6 +80,7 @@ void TMC2660::stepInterpolation(bool flag)
         bits = 0 << shift;
     }
     modifyBits(DRVCTRL.intpol, bits, &DRVCTRL_0_CMD);
+    // write(&DRVCTRL_0_CMD); 
 }
 
 void TMC2660::modifyBits(uint32_t mask, uint32_t edit, uint32_t* reg)

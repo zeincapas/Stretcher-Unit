@@ -49,7 +49,13 @@ class TMC2660
         void doubleStepping(bool); //DEDGE 0: Rising step pulse is active, falling is inactive    1: Both rising and falling edge active
         void stepInterpolation(bool); //INTPOL 0: Disable STEP pulse interpolation   1: Enable step pulse multiplication by 16.
         
-
+        void write(uint32_t*);
+        uint32_t DRVCTRL_0_CMD;
+        uint32_t DRVCTRL_1_CMD;
+        uint32_t DRVCONF_CMD;
+        uint32_t CHOPCONF_CMD;
+        uint32_t SMARTEN_CMD;
+        uint32_t SGCSCONF_CMD;
 
         //TODO: DRVCTRL_SPI_MODE
 
@@ -66,12 +72,6 @@ class TMC2660
         const uint32_t spi_speed = 16000000/8; // Default 2MHz
 
         //Bit fields to be edited and sent to the stepper driver
-        uint32_t DRVCTRL_0_CMD;
-        uint32_t DRVCTRL_1_CMD;
-        uint32_t DRVCONF_CMD;
-        uint32_t CHOPCONF_CMD;
-        uint32_t SMARTEN_CMD;
-        uint32_t SGCSCONF_CMD;
 
 };
 
