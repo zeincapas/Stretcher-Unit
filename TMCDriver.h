@@ -23,12 +23,13 @@ class TMC2660
         void write(uint32_t*);
 
         //DRVCONF
-        void slopeControlHigh();
-        void slopeControlLow();
-        void motorShortTimer();    //TS2G short to ground timer. (turns off power mosfets)
-        void stepMode();   //RDSEL 0: step and dir interface, 1: SPI interface 
-        void rmsCurrent();  //VSENSE
-        void readMode(); //RDSEL Microstep positon or stallguard or coolStep current level readback
+        void slopeControlHigh(uint8_t);
+        void slopeControlLow(uint8_t);
+        void enableDetectGND(bool);  //DISS2G    0: Short to GND protection is enabled      1: Disabled
+        void motorShortTimer(uint8_t);    //TS2G short to ground timer. (turns off power mosfets)
+        void stepMode(bool);   //RDSEL 0: step and dir interface, 1: SPI interface 
+        void senseResScale(bool);  //VSENSE
+        void readMode(uint8_t); //RDSEL Microstep positon or stallguard or coolStep current level readback
 
         //SGCSCONF
         void filterMode(); //SFILT 0: standard mode, rapid stall detection 1: Filtered mode for precise load measurement.

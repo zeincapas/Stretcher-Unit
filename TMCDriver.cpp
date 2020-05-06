@@ -8,9 +8,9 @@ DRVCONF drvconf;
 SMARTEN smarten;
 SGCSCONF sgcsconf;
 
-/****************************************
-***********    INIT/SPI     *************
-****************************************/
+/*********************************************************************************
+************************************ INIT/SPI FUNCTIONS **************************
+*********************************************************************************/
 void TMC2660::init()
 {
     pinMode(cs, OUTPUT);
@@ -37,9 +37,9 @@ void TMC2660::write(uint32_t* cmd)
 }
 
 
-/****************************************
-*********** DRVCTRL FUNCTIONS ***********
-****************************************/
+/*********************************************************************************
+************************************ DRVCTRL FUNCTIONS ***************************
+*********************************************************************************/
 
 void TMC2660::setMicroStep(uint16_t mStep) 
 {   
@@ -94,9 +94,9 @@ void TMC2660::stepInterpolation(bool flag)
     // write(&DRVCTRL_0_CMD); 
 }
 
-/****************************************
-*********** CHOPCONF FUNCTIONS **********
-****************************************/
+/*********************************************************************************
+************************************ CHOPCONF FUNCTIONS **************************
+*********************************************************************************/
 
 void TMC2660::slowDecayTime(uint8_t offTime)
 {
@@ -203,6 +203,107 @@ void TMC2660::blankTime(uint8_t blankTime)
     modifyBits(chopconf.tbl, bits, &CHOPCONF_CMD);
 }
 
-/****************************************
-*********** DRVCONF FUNCTIONS **********
-****************************************/
+/*********************************************************************************
+************************************ DRVCONF FUNCTIONS ***************************
+*********************************************************************************/
+
+void TMC2660::readMode(uint8_t rMode)
+{
+    uint32_t bits;
+    uint8_t shift = 4;
+    switch(rMode)
+    {
+        case     2:  bits = 0x02; break;
+        case     1:  bits = 0x01; break;
+        case     0:  bits = 0x00; break;
+    }
+    bits = bits << shift;
+    modifyBits(drvconf.rdsel, bits, &DRVCONF_CMD);
+}
+
+void TMC2660::senseResScale(bool flag)
+{
+    uint32_t bits;
+    uint8_t shift = 6;
+    if (flag)
+    {
+        bits = 1 << shift;
+    }
+    else 
+    {
+        bits = 0 << shift;
+    }
+    modifyBits(drvconf.vsense, bits, &DRVCONF_CMD);
+}
+
+void TMC2660::stepMode(bool flag)
+{
+    uint32_t bits;
+    uint8_t shift = 7;
+    if (flag)
+    {
+        bits = 1 << shift;
+    }
+    else 
+    {
+        bits = 0 << shift;
+    }
+    modifyBits(drvconf.sdoff, bits, &DRVCONF_CMD);    
+}
+
+void TMC2660::motorShortTimer(uint8_t detectTime)
+{
+    uint32_t bits;
+    uint8_t shift = 8;
+    switch(detectTime)
+    {
+        case     3:  bits = 0x00; break;
+        case     2:  bits = 0x01; break;
+        case     1:  bits = 0x02; break;
+        case     0:  bits = 0x03; break; 
+    }
+    modifyBits(drvconf.ts2g, bits, &DRVCONF_CMD);
+}
+
+void TMC2660::enableDetectGND(bool flag)
+{
+    uint32_t bits;
+    uint8_t shift = 10;
+    if (flag)
+    {
+        bits = 1 << shift;
+    }
+    else 
+    {
+        bits = 0 << shift;
+    }
+    modifyBits(drvconf.diss2g, bits, &DRVCONF_CMD);       
+}
+
+void TMC2660::slopeControlLow(uint8_t slopeLowCtrl)
+{
+    uint32_t bits;
+    uint8_t shift = 12;
+    switch(slopeLowCtrl)
+    {
+        case     3:  bits = 0x03; break;
+        case     2:  bits = 0x02; break;
+        case     1:  bits = 0x01; break;
+        case     0:  bits = 0x00; break;
+    }
+    modifyBits(drvconf.slpl, bits, &DRVCONF_CMD);
+}
+
+void TMC2660::slopeControlHigh(uint8_t slopeHighCtrl)
+{
+    uint32_t bits;
+    uint8_t shift = 14;
+    switch(slopeHighCtrl)
+    {
+        case     3:  bits = 0x03; break;
+        case     2:  bits = 0x02; break;
+        case     1:  bits = 0x01; break;
+        case     0:  bits = 0x00; break;
+    }
+    modifyBits(drvconf.slph, bits, &DRVCONF_CMD);
+}
