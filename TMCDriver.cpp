@@ -4,6 +4,9 @@
 
 DRVCTRL_0 drvctrl;
 CHOPCONF chopconf;
+DRVCONF drvconf;
+SMARTEN smarten;
+SGCSCONF sgcsconf;
 
 /****************************************
 ***********    INIT/SPI     *************
@@ -199,3 +202,7 @@ void TMC2660::blankTime(uint8_t blankTime)
     bits = bits << shift;
     modifyBits(chopconf.tbl, bits, &CHOPCONF_CMD);
 }
+
+/****************************************
+*********** DRVCONF FUNCTIONS **********
+****************************************/
