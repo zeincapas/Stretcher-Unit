@@ -7,9 +7,22 @@ TMC2660 driver(7, 1); //(CS_PIN, EN_PIN)
 void setup() 
 {
   driver.init();
+
+  //DRVCTRL settings 
   driver.doubleStepping(1);
   driver.stepInterpolation(1);
   driver.setMicroStep(8);
+
+  //CHOPCONF settings
+  driver.blankTime(54);
+  driver.chopperMode(1);
+  driver.hystEnd(0);
+  driver.hystStart(6);
+  driver.hystDecrement(64);
+  driver.slowDecayTime(11);
+
+  //Write to stepper driver
+  driver.write(&driver.CHOPCONF_CMD);
   driver.write(&driver.DRVCTRL_0_CMD);
 }
 
