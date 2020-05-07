@@ -262,6 +262,7 @@ void TMC2660::motorShortTimer(uint8_t detectTime)
         case     1:  bits = 0x02; break;
         case     0:  bits = 0x03; break; 
     }
+    bits = bits << shift;
     modifyBits(drvconf.ts2g, bits, &DRVCONF_CMD);
 }
 
@@ -291,6 +292,7 @@ void TMC2660::slopeControlLow(uint8_t slopeLowCtrl)
         case     1:  bits = 0x01; break;
         case     0:  bits = 0x00; break;
     }
+    bits = bits << shift;
     modifyBits(drvconf.slpl, bits, &DRVCONF_CMD);
 }
 
@@ -305,5 +307,138 @@ void TMC2660::slopeControlHigh(uint8_t slopeHighCtrl)
         case     1:  bits = 0x01; break;
         case     0:  bits = 0x00; break;
     }
+    bits = bits << shift;
     modifyBits(drvconf.slph, bits, &DRVCONF_CMD);
+}
+
+/*********************************************************************************
+************************************ SMARTEN FUNCTIONS ***************************
+*********************************************************************************/
+
+void TMC2660::coilLowerThreshold(uint8_t thresh)
+{
+    uint32_t bits; 
+    if (thresh > 15)
+    {
+        bits = 15;
+    }
+    else
+    {
+        bits = thresh;
+    }
+    modifyBits(smarten.semin, bits, &SMARTEN_CMD);
+}
+
+void TMC2660::coilIncrementSize(uint8_t inc)
+{
+    uint32_t bits;
+    uint8_t shift = 5;
+    switch(inc)
+    {
+        case     8:  bits = 0x03; break;
+        case     4:  bits = 0x02; break;
+        case     2:  bits = 0x01; break;
+        case     1:  bits = 0x00; break;
+    }
+    bits = bits << shift;
+    modifyBits(smarten.seup, bits, &SMARTEN_CMD);
+} 
+
+void TMC2660::coilUpperThreshold(uint8_t thresh)
+{
+    uint32_t bits;
+    uint8_t shift = 8;
+    if (thresh > 15)
+    {
+        bits = 15;
+    }
+    else
+    {
+        bits = thresh;
+    }
+    bits = bits << shift;
+    modifyBits(smarten.semax, bits, &SMARTEN_CMD);    
+}
+
+void TMC2660::coilDecrementSpd(uint8_t dec)
+{
+    uint32_t bits;
+    uint8_t shift = 13;
+    switch(dec)
+    {
+        case    32:  bits = 0x00; break;
+        case     8:  bits = 0x01; break;
+        case     2:  bits = 0x02; break;
+        case     1:  bits = 0x03; break;
+    }
+    bits = bits << shift;
+    modifyBits(smarten.sedn, bits, &SMARTEN_CMD);
+}
+
+void TMC2660::minCoilCurrent(bool flag)
+{
+    uint32_t bits;
+    uint8_t shift = 15;
+    if (flag)
+    {
+        bits = 1 << shift;
+    }
+    else
+    {
+        bits = 0 << shift;
+    }
+    modifyBits(smarten.seimin, bits, &SMARTEN_CMD);
+}
+
+/*********************************************************************************
+********************************** SGCSCONF FUNCTIONS ****************************
+*********************************************************************************/
+
+void TMC2660::currentScale(uint8_t scale)
+{
+    uint32_t bits;
+    if (scale > 31)
+    {
+        bits = 31;
+    }
+    else
+    {
+        bits = scale;
+    }
+    modifyBits(sgcsconf.csc, bits, &SGCSCONF_CMD);
+}
+
+void TMC2660::stallGrdThresh(int8_t thresh)
+{
+    uint32_t bits;
+    uint8_t shift = 8;
+    if (thresh > 63)
+    {
+        bits = 63;
+    }
+    else if (thresh < -64)
+    {
+        bits = -64;
+    }
+    else 
+    {
+        bits = thresh;
+    }
+    bits = bits << shift;
+    modifyBits(sgcsconf.sgt, bits, &SGCSCONF_CMD);
+}
+
+void TMC2660::filterMode(bool flag)
+{
+    uint32_t bits;
+    uint8_t shift = 16;
+    if (flag)
+    {
+        bits = 1 << shift;
+    }
+    else 
+    {
+        bits = 0 << shift;
+    }
+    modifyBits(sgcsconf.sfilt, bits, &SGCSCONF_CMD);
 }

@@ -32,16 +32,16 @@ class TMC2660
         void readMode(uint8_t); //RDSEL Microstep positon or stallguard or coolStep current level readback
 
         //SGCSCONF
-        void filterMode(); //SFILT 0: standard mode, rapid stall detection 1: Filtered mode for precise load measurement.
-        void stallGrdThresh(); //SGT the higher the value, the higher the torque required to indicate a stall, start with 0.
-        void currentScale(); //CS
+        void filterMode(bool); //SFILT 0: standard mode, rapid stall detection 1: Filtered mode for precise load measurement.
+        void stallGrdThresh(int8_t); //SGT the higher the value, the higher the torque required to indicate a stall, start with 0.
+        void currentScale(uint8_t); //CS
 
         //SMARTEN
-        void minCoilCurrent(); //SEIMIN 0: 1/2 of CS    1: 1/4 of CS
-        void coilDecrementSpd(); //SEDN number of times stallguard2 is above threshold is sampled before decrement.
-        void coilUpperThreshold(); //SEMAX Threshold (high) is (SEMIN + SEMAX + 1)*32 decreases current scaling when above threshold.
-        void coilLowerThreshold(); //SEMIN Threshold (low) is (SEMIN)*32 increases current scaling when below threshold.
-        void coilIncrementSize(); //SEUP The magnitude of compensation when the coil current drops below the low threshold.
+        void minCoilCurrent(bool); //SEIMIN 0: 1/2 of CS    1: 1/4 of CS
+        void coilDecrementSpd(uint8_t); //SEDN number of times stallguard2 is above threshold is sampled before decrement.
+        void coilUpperThreshold(uint8_t); //SEMAX Threshold (high) is (SEMIN + SEMAX + 1)*32 decreases current scaling when above threshold.
+        void coilLowerThreshold(uint8_t); //SEMIN Threshold (low) is (SEMIN)*32 increases current scaling when below threshold.
+        void coilIncrementSize(uint8_t); //SEUP The magnitude of compensation when the coil current drops below the low threshold.
 
         //CHOPCONF
         void blankTime(uint8_t); //TBL the number of cycles after a switch, in which the sense resistor ringing is ignored (ripples are bad).
