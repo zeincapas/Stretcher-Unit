@@ -37,17 +37,17 @@ void setup()
   // driver.coilDecrementSpd(32);
   // driver.minCoilCurrent(0);
 
-  //SGCSCONF settings
-  driver.currentScale(0);
-  driver.stallGrdThresh(4);
-  driver.filterMode(0);
+  // //SGCSCONF settings
+  // driver.currentScale(0);
+  // driver.stallGrdThresh(4);
+  // driver.filterMode(0);
 
   //Write to stepper driver
   // driver.write(&driver.CHOPCONF_CMD);
   // driver.write(&driver.DRVCTRL_0_CMD);
   // driver.write(&driver.DRVCONF_CMD);
   // driver.write(&driver.SMARTEN_CMD);
-  driver.write(&driver.SGCSCONF_CMD);
+  // driver.write(&driver.SGCSCONF_CMD);
 
 }
 
