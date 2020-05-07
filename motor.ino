@@ -2,68 +2,60 @@
 #include <AccelStepper.h>
 #include "TMCDriver.h"
 
-TMC2660 driver(7, 1); //(CS_PIN, EN_PIN)
+#define DIR_PIN          4 // Direction
+#define STEP_PIN         3 // Step
+#define CS_PIN           7 // Chip select
+
+TMC2660 driver(CS_PIN, 1); //(CS_PIN, EN_PIN)
 
 void setup() 
 {
+  pinMode(STEP_PIN, OUTPUT);
+  pinMode(DIR_PIN, OUTPUT);
   driver.init();
 
-  // //DRVCTRL settings 
-  // driver.doubleStepping(1);
-  // driver.stepInterpolation(1);
-  // driver.setMicroStep(8);
+  // DRVCTRL settings 
+  driver.doubleStepping(0);
+  driver.stepInterpolation(0);
+  driver.setMicroStep(32);
 
-  // //CHOPCONF settings
-  // driver.blankTime(54);
-  // driver.chopperMode(1);
-  // driver.hystEnd(0);
-  // driver.hystStart(6);
-  // driver.hystDecrement(64);
-  // driver.slowDecayTime(11);
+  //CHOPCONF settings
+  driver.blankTime(24);
+  driver.chopperMode(0);
+  driver.hystEnd(5);
+  driver.hystStart(6);
+  driver.hystDecrement(32);
+  driver.slowDecayTime(5);
 
-  // // DRVCONF settings
-  // driver.readMode(1);
-  // driver.senseResScale(0);
-  // driver.stepMode(0);
-  // driver.motorShortTimer(3);
-  // driver.enableDetectGND(0);
-  // driver.slopeControlLow(0);
-  // driver.slopeControlHigh(3);
+  // DRVCONF settings
+  driver.readMode(1);
+  driver.senseResScale(0);
+  driver.stepMode(0);
+  driver.motorShortTimer(2);
+  driver.enableDetectGND(0);
+  driver.slopeControlLow(2);
+  driver.slopeControlHigh(2);
 
-  // //SMARTEN settings
-  // driver.coilLowerThreshold(0);
-  // driver.coilIncrementSize(1);
-  // driver.coilUpperThreshold(0);
-  // driver.coilDecrementSpd(32);
-  // driver.minCoilCurrent(0);
+  //SMARTEN settings
+  driver.coilLowerThreshold(8);
+  driver.coilIncrementSize(8);
+  driver.coilUpperThreshold(8);
+  driver.coilDecrementSpd(8);
+  driver.minCoilCurrent(0);
 
-  // //SGCSCONF settings
-  // driver.currentScale(0);
-  // driver.stallGrdThresh(4);
-  // driver.filterMode(0);
+  //SGCSCONF settings
+  driver.currentScale(25);
+  driver.stallGrdThresh(0);
+  driver.filterMode(0);
 
-  //Write to stepper driver
-  // driver.write(&driver.CHOPCONF_CMD);
-  // driver.write(&driver.DRVCTRL_0_CMD);
-  // driver.write(&driver.DRVCONF_CMD);
-  // driver.write(&driver.SMARTEN_CMD);
-  // driver.write(&driver.SGCSCONF_CMD);
+  // Write to stepper driver
+  driver.write(&driver.CHOPCONF_CMD);
+  driver.write(&driver.DRVCTRL_0_CMD);
+  driver.write(&driver.DRVCONF_CMD);
+  driver.write(&driver.SMARTEN_CMD);
+  driver.write(&driver.SGCSCONF_CMD);
 
 }
-
-void loop() {
-  while(1);
-}
-
-// #include <SPI.h>
-
-// #define EN_PIN           1 // Enable
-// #define DIR_PIN          4 // Direction
-// #define STEP_PIN         3 // Step
-// #define CS_PIN           7 // Chip select
-// #define CLK_PIN          6 //CLK SELECT, leave this LOW
-// #define TEMP_SENS        A2 
-
 
 // uint32_t spi_speed = 16000000/8; // Default 2MHz
 
@@ -101,24 +93,17 @@ void loop() {
 //   SPI.transfer (&DRVCTRLToSend, 3);
 //   digitalWrite(CS_PIN, HIGH);
 
-//   // digitalWrite(CS_PIN, LOW);
-//   // SPI.transfer (SMARTENToSend, 3);
-//   // digitalWrite(CS_PIN, HIGH);
+//   digitalWrite(CS_PIN, LOW);
+//   SPI.transfer (SMARTENToSend, 3);
+//   digitalWrite(CS_PIN, HIGH);
 
 //   SPI.endTransaction();
 // }
 
-// //bool shaft = false;
-
-// void loop() {
-//   // Run 5000 steps and switch direction in software
-//   // for (uint16_t i = 5000; i>0; i--) {
-//     digitalWrite(STEP_PIN, HIGH);
-//     // Serial.println("1");
-//     delayMicroseconds(160);
-//     digitalWrite(STEP_PIN, LOW);
-//     // Serial.println("2");
-//     delayMicroseconds(160);
-// // }
-  
-// }
+void loop() 
+{
+    digitalWrite(STEP_PIN, HIGH);
+    delayMicroseconds(100);
+    digitalWrite(STEP_PIN, LOW);
+    delayMicroseconds(100);
+}
