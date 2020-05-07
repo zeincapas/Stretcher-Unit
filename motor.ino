@@ -8,22 +8,47 @@ void setup()
 {
   driver.init();
 
-  //DRVCTRL settings 
-  driver.doubleStepping(1);
-  driver.stepInterpolation(1);
-  driver.setMicroStep(8);
+  // //DRVCTRL settings 
+  // driver.doubleStepping(1);
+  // driver.stepInterpolation(1);
+  // driver.setMicroStep(8);
 
-  //CHOPCONF settings
-  driver.blankTime(54);
-  driver.chopperMode(1);
-  driver.hystEnd(0);
-  driver.hystStart(6);
-  driver.hystDecrement(64);
-  driver.slowDecayTime(11);
+  // //CHOPCONF settings
+  // driver.blankTime(54);
+  // driver.chopperMode(1);
+  // driver.hystEnd(0);
+  // driver.hystStart(6);
+  // driver.hystDecrement(64);
+  // driver.slowDecayTime(11);
+
+  // // DRVCONF settings
+  // driver.readMode(1);
+  // driver.senseResScale(0);
+  // driver.stepMode(0);
+  // driver.motorShortTimer(3);
+  // driver.enableDetectGND(0);
+  // driver.slopeControlLow(0);
+  // driver.slopeControlHigh(3);
+
+  // //SMARTEN settings
+  // driver.coilLowerThreshold(0);
+  // driver.coilIncrementSize(1);
+  // driver.coilUpperThreshold(0);
+  // driver.coilDecrementSpd(32);
+  // driver.minCoilCurrent(0);
+
+  //SGCSCONF settings
+  driver.currentScale(0);
+  driver.stallGrdThresh(4);
+  driver.filterMode(0);
 
   //Write to stepper driver
-  driver.write(&driver.CHOPCONF_CMD);
-  driver.write(&driver.DRVCTRL_0_CMD);
+  // driver.write(&driver.CHOPCONF_CMD);
+  // driver.write(&driver.DRVCTRL_0_CMD);
+  // driver.write(&driver.DRVCONF_CMD);
+  // driver.write(&driver.SMARTEN_CMD);
+  driver.write(&driver.SGCSCONF_CMD);
+
 }
 
 void loop() {

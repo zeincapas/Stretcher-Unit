@@ -408,6 +408,7 @@ void TMC2660::currentScale(uint8_t scale)
     modifyBits(sgcsconf.csc, bits, &SGCSCONF_CMD);
 }
 
+//BROKEN if using negative value. I have no idea how to do 2's complement.
 void TMC2660::stallGrdThresh(int8_t thresh)
 {
     uint32_t bits;
