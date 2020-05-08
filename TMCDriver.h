@@ -16,8 +16,8 @@ class TMC2660
         void pushCommands(void);
 
         //DRVCONF
-        void slopeControlHigh(uint8_t);
-        void slopeControlLow(uint8_t);
+        void slopeControlHigh(uint8_t); //SLPH Controls the current slope for turning on the MOSFET (MAX this out) 
+        void slopeControlLow(uint8_t); //SLPL Controls the current slope for turning off the MOSFET (MAX this out also)
         void enableDetectGND(bool);  //DISS2G    0: Short to GND protection is enabled      1: Disabled
         void motorShortTimer(uint8_t);    //TS2G short to ground timer. (turns off power mosfets)
         void stepMode(bool);   //SDOFF 0: step and dir interface, 1: SPI interface 
