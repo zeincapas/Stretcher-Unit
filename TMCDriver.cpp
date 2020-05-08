@@ -14,8 +14,6 @@ SGCSCONF sgcsconf;
 void TMC2660::init()
 {
     pinMode(cs, OUTPUT);
-    pinMode(en, OUTPUT);
-    digitalWrite(en, LOW);      // Enable driver in hardware
 }
 
 void TMC2660::modifyBits(uint32_t mask, uint32_t edit, uint32_t* reg)
@@ -34,6 +32,16 @@ void TMC2660::write(uint32_t* cmd)
     SPI.transfer(&writeField, 4);
     digitalWrite(cs, HIGH);
     SPI.endTransaction();
+}
+
+void TMC2660::pushCommands()
+{
+    // Write to stepper driver
+    write(&CHOPCONF_CMD);
+    write(&DRVCTRL_0_CMD);
+    write(&DRVCONF_CMD);
+    write(&SMARTEN_CMD);
+    write(&SGCSCONF_CMD);
 }
 
 

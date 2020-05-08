@@ -6,21 +6,14 @@
 class TMC2660 
 {
     public:
-        uint32_t DRVCTRL_0_CMD = 0b00 << 18;
-        uint32_t DRVCTRL_1_CMD;
-        uint32_t DRVCONF_CMD = 0b111 << 17;
-        uint32_t CHOPCONF_CMD = 0b100 << 17;
-        uint32_t SMARTEN_CMD = 0b101 << 17;
-        uint32_t SGCSCONF_CMD = 0b110 << 17;
-
-        TMC2660(int8_t cs_pin, int8_t en_pin)
+        TMC2660(uint8_t cs_pin)
         {
-            en = en_pin;
             cs = cs_pin;
         }
         
         void init();
         void write(uint32_t*);
+        void pushCommands(void);
 
         //DRVCONF
         void slopeControlHigh(uint8_t);
@@ -62,17 +55,21 @@ class TMC2660
 
 
     private:
-        //Bitfield construction
-        void modifyBits(uint32_t mask, uint32_t bits, uint32_t* reg);
+        uint32_t DRVCTRL_0_CMD = 0b00 << 18;
+        uint32_t DRVCTRL_1_CMD;
+        uint32_t DRVCONF_CMD = 0b111 << 17;
+        uint32_t CHOPCONF_CMD = 0b100 << 17;
+        uint32_t SMARTEN_CMD = 0b101 << 17;
+        uint32_t SGCSCONF_CMD = 0b110 << 17;
 
         //Hardawre pins
-        int en;
-        int cs;
+        uint8_t cs;
 
         //SPI Speed 
         const uint32_t spi_speed = 16000000/8; // Default 2MHz
 
-        //Bit fields to be edited and sent to the stepper driver
+        //Bitfield construction
+        void modifyBits(uint32_t mask, uint32_t bits, uint32_t* reg);
 
 };
 
