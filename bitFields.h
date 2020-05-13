@@ -53,5 +53,30 @@ struct SGCSCONF
     const uint32_t sfilt = 0b1 << 16; 
 };
 
+struct READ
+{
+    const uint32_t _sg = 0b1;
+    const uint32_t _ot = 0b11;
+    const uint32_t _otpw = 0b1;
+    const uint32_t _s2ga = 0b1;
+    const uint32_t _s2gb = 0b1;
+    const uint32_t _ola = 0b1;
+    const uint32_t _olb = 0b1;
+    const uint32_t _stst = 0b1;
+    const uint32_t _readType = 0b1111111111;
+};
+
+struct DRVSTATUS
+{
+    bool stall;
+    bool overheat;
+    bool heatWarning;
+    bool shortA;
+    bool shortB;
+    bool noLoadA;
+    bool noLoadB;
+    bool standStill;
+    uint16_t readData; 
+};
 
 #endif

@@ -7,6 +7,8 @@ CHOPCONF chopconf;
 DRVCONF drvconf;
 SMARTEN smarten;
 SGCSCONF sgcsconf;
+DRVSTATUS status;
+READ readReg;
 
 /*********************************************************************************
 ************************************ INIT/SPI FUNCTIONS **************************
@@ -27,7 +29,7 @@ void TMC2660::write(uint32_t* cmd)
 {
     //Acquire constructed bitfield and chop it up to 4 bytes. 
     char writeField[4] = {*cmd >> 24, (*cmd >> 16) & 0xFF, (*cmd >> 8) & 0xFF, (*cmd) & 0xFF};
-    SPI.begin();
+    SPI.begin();                  //Change to beginTransaction() later.
     digitalWrite(cs, LOW);
     SPI.transfer(&writeField, 4);
     digitalWrite(cs, HIGH);
@@ -36,7 +38,36 @@ void TMC2660::write(uint32_t* cmd)
 
 uint32_t TMC2660::read()
 {
-    write(&DRVCTRL,) 
+    uint32_t *dummy;
+    dummy = &DRVCONF_CMD;
+
+    uint32_t response;
+
+    char dummyField[4] = {*dummy >> 24, (*dummy >> 16) & 0xFF, (*dummy >> 8) & 0xFF, (*dummy) & 0xFF};
+    SPI.begin();
+    digitalWrite(cs, LOW);
+    response |= SPI.transfer(dummyField[0]);
+    response <<= 8;
+    response |= SPI.transfer(dummyField[1]);
+    response <<= 8;
+    response |= SPI.transfer(dummyField[2]);
+    response <<= 8;
+    response |= SPI.transfer(dummyField[3]);
+    digitalWrite(cs, HIGH);
+    SPI.endTransaction();
+    return response >> 12;
+}
+
+void TMC2660::translateResponse(uint32_t response)
+{
+    status.stall = (response >> 0) & readReg._sg;
+    status.overheat = (response >> 1) & readReg._ot;
+    status.heatWarning = (response >> 2) & readReg._otpw;
+    status.shortA = (response >> 3) & readReg._s2ga;
+    status.shortB = (response >> 4) & readReg._s2gb;
+    status.noLoadA = (response >> 5) & readReg._ola;
+    status.noLoadB = (response >> 6) & readReg._olb;
+    status.standStill = (response >> 7) & readReg._stst;
 }
 
 void TMC2660::pushCommands()

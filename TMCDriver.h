@@ -14,6 +14,7 @@ class TMC2660
         void init(void);
         void write(uint32_t*);
         uint32_t read(void);
+        void translateResponse(uint32_t);
         void pushCommands(void);
 
 
@@ -58,11 +59,12 @@ class TMC2660
 
     private:
         uint32_t DRVCTRL_0_CMD = 0b00 << 18;
-        uint32_t DRVCTRL_1_CMD;
+        // uint32_t DRVCTRL_1_CMD; //SPI mode not implemented yet
         uint32_t DRVCONF_CMD = 0b111 << 17;
         uint32_t CHOPCONF_CMD = 0b100 << 17;
         uint32_t SMARTEN_CMD = 0b101 << 17;
         uint32_t SGCSCONF_CMD = 0b110 << 17;
+        uint32_t READ_VALUE;
 
         //Hardawre pins
         uint8_t cs;
