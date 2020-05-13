@@ -11,9 +11,11 @@ class TMC2660
             cs = cs_pin;
         }
         
-        void init();
+        void init(void);
         void write(uint32_t*);
+        uint32_t read(void);
         void pushCommands(void);
+
 
         //DRVCONF
         void slopeControlHigh(uint8_t); //SLPH Controls the current slope for turning on the MOSFET (MAX this out) 

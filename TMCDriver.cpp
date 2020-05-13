@@ -34,6 +34,11 @@ void TMC2660::write(uint32_t* cmd)
     SPI.endTransaction();
 }
 
+uint32_t TMC2660::read()
+{
+    write(&DRVCTRL,) 
+}
+
 void TMC2660::pushCommands()
 {
     // Write to stepper driver
