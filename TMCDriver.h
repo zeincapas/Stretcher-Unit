@@ -15,6 +15,7 @@ class TMC2660
         void write(uint32_t*);
         uint32_t read(void);
         void translateResponse(uint32_t);
+        void printResponse(void);
         void pushCommands(void);
 
 

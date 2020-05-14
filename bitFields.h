@@ -56,7 +56,7 @@ struct SGCSCONF
 struct READ
 {
     const uint32_t _sg = 0b1;
-    const uint32_t _ot = 0b11;
+    const uint32_t _ot = 0b1;
     const uint32_t _otpw = 0b1;
     const uint32_t _s2ga = 0b1;
     const uint32_t _s2gb = 0b1;

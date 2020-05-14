@@ -7,9 +7,11 @@
 #define CS_PIN           7 // Chip select
 
 TMC2660 driver(CS_PIN); //(CS_PIN, EN_PIN)
+uint32_t readVal;
 
 void setup() 
 {
+  Serial.begin(9600);
   pinMode(STEP_PIN, OUTPUT);
   pinMode(DIR_PIN, OUTPUT);
   driver.init();
@@ -28,7 +30,7 @@ void setup()
   driver.slowDecayTime(5);
 
   // DRVCONF settings
-  driver.readMode(1);
+  driver.readMode(0);
   driver.senseResScale(0);
   driver.stepMode(0);
   driver.motorShortTimer(2);
@@ -59,4 +61,8 @@ void loop()
     delayMicroseconds(15);
     digitalWrite(STEP_PIN, LOW);
     delayMicroseconds(15);
+
+    readVal = driver.read();
+    driver.translateResponse(readVal);
+    driver.printResponse();
 }

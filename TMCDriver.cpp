@@ -60,7 +60,7 @@ uint32_t TMC2660::read()
 
 void TMC2660::translateResponse(uint32_t response)
 {
-    status.stall = (response >> 0) & readReg._sg;
+    status.stall = response & readReg._sg;
     status.overheat = (response >> 1) & readReg._ot;
     status.heatWarning = (response >> 2) & readReg._otpw;
     status.shortA = (response >> 3) & readReg._s2ga;
@@ -68,6 +68,20 @@ void TMC2660::translateResponse(uint32_t response)
     status.noLoadA = (response >> 5) & readReg._ola;
     status.noLoadB = (response >> 6) & readReg._olb;
     status.standStill = (response >> 7) & readReg._stst;
+    status.readData = (response >> 10) & readReg._readType;
+}
+
+void TMC2660::printResponse()
+{
+    Serial.print("Stall: "); Serial.println(status.stall, BIN);
+    Serial.print("Overheat: "); Serial.println(status.overheat, BIN);
+    Serial.print("Temperature Warning: "); Serial.println(status.heatWarning, BIN);
+    Serial.print("Short Circuit A: "); Serial.println(status.shortA, BIN);
+    Serial.print("Short Circuit B: "); Serial.println(status.shortB, BIN);
+    Serial.print("No Load A: "); Serial.println(status.noLoadA, BIN);
+    Serial.print("No Load B: "); Serial.println(status.noLoadB, BIN);
+    Serial.print("Stand Still: "); Serial.println(status.standStill, BIN);
+    Serial.print("Data: "); Serial.println(status.readData, BIN);
 }
 
 void TMC2660::pushCommands()
