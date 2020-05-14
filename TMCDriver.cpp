@@ -1,5 +1,4 @@
 #include "TMCDriver.h"
-#include "bitFields.h"
 #include <SPI.h>
 
 DRVCTRL_0 drvctrl;
@@ -7,7 +6,6 @@ CHOPCONF chopconf;
 DRVCONF drvconf;
 SMARTEN smarten;
 SGCSCONF sgcsconf;
-DRVSTATUS status;
 READ readReg;
 
 /*********************************************************************************
@@ -58,8 +56,9 @@ uint32_t TMC2660::read()
     return response >> 12;
 }
 
-void TMC2660::translateResponse(uint32_t response)
+DRVSTATUS TMC2660::translateResponse(uint32_t response)
 {
+    DRVSTATUS status;
     status.stall = response & readReg._sg;
     status.overheat = (response >> 1) & readReg._ot;
     status.heatWarning = (response >> 2) & readReg._otpw;
@@ -69,19 +68,7 @@ void TMC2660::translateResponse(uint32_t response)
     status.noLoadB = (response >> 6) & readReg._olb;
     status.standStill = (response >> 7) & readReg._stst;
     status.readData = (response >> 10) & readReg._readType;
-}
-
-void TMC2660::printResponse()
-{
-    Serial.print("Stall: "); Serial.println(status.stall, BIN);
-    Serial.print("Overheat: "); Serial.println(status.overheat, BIN);
-    Serial.print("Temperature Warning: "); Serial.println(status.heatWarning, BIN);
-    Serial.print("Short Circuit A: "); Serial.println(status.shortA, BIN);
-    Serial.print("Short Circuit B: "); Serial.println(status.shortB, BIN);
-    Serial.print("No Load A: "); Serial.println(status.noLoadA, BIN);
-    Serial.print("No Load B: "); Serial.println(status.noLoadB, BIN);
-    Serial.print("Stand Still: "); Serial.println(status.standStill, BIN);
-    Serial.print("Data: "); Serial.println(status.readData, BIN);
+    return status;
 }
 
 void TMC2660::pushCommands()
@@ -132,7 +119,6 @@ void TMC2660::doubleStepping(bool flag)
         bits = 0 << shift;
     }
     modifyBits(drvctrl.dedge, bits, &DRVCTRL_0_CMD);
-    // write(&DRVCTRL_0_CMD); 
 }
 
 void TMC2660::stepInterpolation(bool flag)
@@ -149,7 +135,6 @@ void TMC2660::stepInterpolation(bool flag)
         bits = 0 << shift;
     }
     modifyBits(drvctrl.intpol, bits, &DRVCTRL_0_CMD);
-    // write(&DRVCTRL_0_CMD); 
 }
 
 /*********************************************************************************

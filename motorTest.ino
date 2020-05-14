@@ -1,5 +1,5 @@
 #include <SPI.h>
-#include <AccelStepper.h>
+#include "bitFields.h"
 #include "TMCDriver.h"
 
 #define DIR_PIN          4 // Direction
@@ -8,6 +8,7 @@
 
 TMC2660 driver(CS_PIN); //(CS_PIN, EN_PIN)
 uint32_t readVal;
+DRVSTATUS status;
 
 void setup() 
 {
@@ -63,6 +64,6 @@ void loop()
     delayMicroseconds(15);
 
     readVal = driver.read();
-    driver.translateResponse(readVal);
-    driver.printResponse();
+    status = driver.translateResponse(readVal);
+    Serial.println(status.readData, DEC);
 }
