@@ -6,9 +6,10 @@
 class TMC2660 
 {
     public:
-        TMC2660(uint8_t cs_pin)
+        TMC2660(uint8_t cs_pin, uint8_t sg_pin)
         {
             cs = cs_pin;
+            sg = sg_pin;
         }
         
         void init();
@@ -64,6 +65,7 @@ class TMC2660
 
         //Hardawre pins
         uint8_t cs;
+        uint8_t sg;
 
         //SPI Speed 
         const uint32_t spi_speed = 16000000/8; // Default 2MHz

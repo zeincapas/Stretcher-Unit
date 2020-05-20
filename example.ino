@@ -2,11 +2,14 @@
 #include <AccelStepper.h>
 #include "TMCDriver.h"
 
-#define DIR_PIN          4 // Direction
-#define STEP_PIN         3 // Step
-#define CS_PIN           7 // Chip select
+#define CS_PIN           24 // Chip select
+#define STEP_PIN         27 // Step
+#define DIR_PIN          28 // Direction
+#define SG_PIN           29 // Stall Guard Pin 
 
-TMC2660 driver(CS_PIN); //(CS_PIN, EN_PIN)
+
+
+TMC2660 driver(CS_PIN, SG_PIN); //(CS_PIN, SG_PIN)
 
 void setup() 
 {

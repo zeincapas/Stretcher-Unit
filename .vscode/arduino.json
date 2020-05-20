@@ -1,5 +1,5 @@
 {
     "port": "COM3",
     "board": "arduino:samd:mkrzero",
-    "sketch": "motorTest.ino"
+    "sketch": "example.ino"
 }
