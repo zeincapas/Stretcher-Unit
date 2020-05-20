@@ -2,9 +2,10 @@
 #include "bitFields.h"
 #include "TMCDriver.h"
 
-#define DIR_PIN          4 // Direction
-#define STEP_PIN         3 // Step
-#define CS_PIN           7 // Chip select
+#define CS_PIN           24 // Chip select
+#define STEP_PIN         27 // Step
+#define DIR_PIN          28 // Direction
+#define SG_PIN           29 //Stall Guard Pin
 
 TMC2660 driver(CS_PIN); //(CS_PIN, EN_PIN)
 uint32_t readVal;
@@ -12,6 +13,7 @@ DRVSTATUS status;
 
 void setup() 
 {
+  delay(0.5);
   Serial.begin(9600);
   pinMode(STEP_PIN, OUTPUT);
   pinMode(DIR_PIN, OUTPUT);
