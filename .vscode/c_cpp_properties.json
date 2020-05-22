@@ -4,10 +4,13 @@
             "name": "Win32",
             "includePath": [
                 "C:\\Users\\zekei\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\**",
-                "C:\\Users\\zekei\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\samd\\1.8.6\\**"
+                "C:\\Users\\zekei\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\samd\\1.8.6\\**",
+                "C:\\Users\\ZekeIzon\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\samd\\1.8.6\\**",
+                "C:\\Users\\ZekeIzon\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\**"
             ],
             "forcedInclude": [
-                "C:\\Users\\zekei\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\samd\\1.8.6\\cores\\arduino\\Arduino.h"
+                "C:\\Users\\zekei\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\samd\\1.8.6\\cores\\arduino\\Arduino.h",
+                "C:\\Users\\ZekeIzon\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\samd\\1.8.6\\cores\\arduino\\Arduino.h"
             ],
             "intelliSenseMode": "msvc-x64"
         }

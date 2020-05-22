@@ -11,6 +11,10 @@
 
 TMC2660 driver(CS_PIN, SG_PIN); //(CS_PIN, SG_PIN)
 
+uint32_t currentTime;
+uint32_t oldTime = 0;
+uint32_t switchPeriod = 4;
+
 void setup() 
 {
   pinMode(STEP_PIN, OUTPUT);
@@ -58,8 +62,15 @@ void setup()
 
 void loop() 
 {
+    currentTime = millis();
     digitalWrite(STEP_PIN, HIGH);
     delayMicroseconds(15);
     digitalWrite(STEP_PIN, LOW);
     delayMicroseconds(15);
+
+    if(currentTime - oldTime > switchPeriod)
+    {
+      digitalWrite(DIR_PIN, !digitalRead(DIR_PIN));
+      oldTime = millis();
+    }
 }
