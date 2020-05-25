@@ -13,7 +13,7 @@ TMC2660 driver(CS_PIN, SG_PIN); //(CS_PIN, SG_PIN)
 
 uint32_t currentTime;
 uint32_t oldTime = 0;
-uint32_t switchPeriod = 4;
+uint32_t switchPeriod = 4000;
 
 void setup() 
 {
